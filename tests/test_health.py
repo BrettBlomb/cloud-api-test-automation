@@ -7,3 +7,4 @@ def test_health_endpoint():
     assert response.status_code == 200
     body = response.json()
     assert "id" in body
+#test
