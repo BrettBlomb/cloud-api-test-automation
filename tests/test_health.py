@@ -1,3 +1,5 @@
+import pytest
+@pytest.mark.smoke
 def test_health_endpoint(api_client):
     """
     Validates that the API health endpoint responds successfully
