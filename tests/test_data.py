@@ -1,4 +1,5 @@
 from utils.api_client import APIClient
+import pytest
 
 @pytest.mark.regression
 def test_data_structure():
