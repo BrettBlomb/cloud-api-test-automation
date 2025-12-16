@@ -39,26 +39,6 @@ The test suite is intentionally split to reflect real-world QA practices:
 
 ---
 
-## 🧱 Project Structure
-cloud-api-test-automation/
-├── tests/
-│ ├── conftest.py # Shared Pytest fixtures
-│ ├── test_health.py # Smoke tests
-│ ├── test_data.py # Regression tests
-│ └── test_schema.py # Schema validation
-│
-├── utils/
-│ ├── api_client.py # Reusable API client with timeouts
-│ └── config.py # Environment-based configuration
-│
-├── reports/ # Generated test reports
-├── requirements.txt
-├── pytest.ini
-└── README.md
-
-This layout mirrors how API automation frameworks are typically organized on QA and SDET team
----
-
 ## 🔧 Tech Stack
 
 - **Language:** Python  
