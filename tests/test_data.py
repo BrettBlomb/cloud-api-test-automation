@@ -1,5 +1,6 @@
 from utils.api_client import APIClient
 
+@pytest.mark.regression
 def test_data_structure():
     client = APIClient()
     response = client.get("/posts/1")
