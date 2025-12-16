@@ -88,7 +88,29 @@ The CI workflow:
 This setup ensures fast feedback and helps catch API issues early in the development cycle.
 
 ---
+## 🔁 Serverless API Health Checks (AWS Lambda)
 
+In addition to the Pytest-based test suite, this project includes a serverless API health check implemented using AWS Lambda.
+The Lambda function performs lightweight, production-style validation by:
+
+- Calling live API endpoints
+- Verifying HTTP response status codes
+- Validating required response fields
+- Returning a structured PASS / FAIL result
+
+This approach mirrors how many teams implement canary tests and service health checks in cloud environments.
+
+---
+## 🔧 How the Lambda Is Used
+
+The Lambda function runs independently of the Pytest framework and is triggered in two ways:
+
+- Scheduled execution using Amazon EventBridge for periodic health monitoring
+- On-demand execution from GitHub Actions, where the CI pipeline invokes the Lambda and fails the build if the health check returns a failure
+  
+This allows the pipeline to validate live API behavior outside the test runner, adding an extra layer of confidence.
+
+---
 ## 📊 Test Reporting
 
 Test execution results are captured using **pytest-html**.
@@ -125,7 +147,16 @@ Potential future improvements include:
 - Cloud-based storage for test artifacts
 
 These were intentionally left out to keep the framework focused and stable.
+---
 
+📍 Visibility & Results
+
+Lambda execution results are visible in multiple places:
+
+- GitHub Actions logs, where the Lambda response is printed and used to gate the build
+- AWS CloudWatch Logs, which store execution details, runtime metrics, and response output for monitoring and troubleshooting
+
+This separation reflects real-world practices, where CI provides fast feedback and cloud logs provide operational visibility.
 ---
 
 ## 📫 Contact
