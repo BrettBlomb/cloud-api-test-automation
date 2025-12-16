@@ -1,6 +1,6 @@
 # Cloud API Test Automation Framework
 
-![API Tests](https://github.com/<YOUR_GITHUB_USERNAME>/<REPO_NAME>/actions/workflows/api-tests.yml/badge.svg)
+![API Tests](https://github.com/BrettBlomb/cloud-api-test-automation/actions/workflows/api-tests.yml/badge.svg)
 
 A Python-based API test automation framework built with **Pytest** to validate live REST APIs using reusable clients, environment-driven configuration, and clearly defined smoke and regression test coverage.
 
