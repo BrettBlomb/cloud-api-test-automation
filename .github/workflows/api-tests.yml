@@ -48,37 +48,40 @@ jobs:
         with:
           aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
           aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-          aws-region: ${{ secrets.AWS_REGION }}
+          aws-region: us-east-2   # FORCE REGION HERE
 
-      # 2️⃣ DEBUG: Confirm AWS account (MOST IMPORTANT)
+      # 2️⃣ Debug AWS identity (account validation)
       - name: Debug - AWS identity
         run: |
           echo "=== AWS CALLER IDENTITY ==="
           aws sts get-caller-identity
 
-      # 3️⃣ DEBUG: Confirm region via environment variables
+      # 3️⃣ Debug region from environment
       - name: Debug - AWS region (env vars)
         run: |
           echo "=== AWS REGION FROM ENV ==="
           echo "AWS_REGION=$AWS_REGION"
           echo "AWS_DEFAULT_REGION=$AWS_DEFAULT_REGION"
 
-      # 4️⃣ DEBUG: Confirm full AWS CLI configuration
+      # 4️⃣ Debug full AWS configuration
       - name: Debug - AWS configuration
         run: |
           echo "=== AWS CONFIGURATION ==="
           aws configure list
 
-      # 5️⃣ DEBUG: List Lambda functions in this account + region
+      # 5️⃣ Debug: list Lambda functions (FORCED REGION)
       - name: Debug - List Lambda functions
         run: |
-          echo "=== LAMBDA FUNCTIONS IN REGION ==="
-          aws lambda list-functions --max-items 20
+          echo "=== LAMBDA FUNCTIONS IN us-east-2 ==="
+          aws lambda list-functions \
+            --region us-east-2 \
+            --max-items 20
 
-      # 6️⃣ Invoke Lambda health check
+      # 6️⃣ Invoke Lambda health check (FORCED REGION)
       - name: Invoke Lambda health check
         run: |
           aws lambda invoke \
+            --region us-east-2 \
             --function-name lambda_health_check \
             --payload '{}' \
             response.json
