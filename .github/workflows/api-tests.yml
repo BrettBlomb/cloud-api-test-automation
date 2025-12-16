@@ -50,25 +50,32 @@ jobs:
           aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
           aws-region: ${{ secrets.AWS_REGION }}
 
-      # 2️⃣ DEBUG: Confirm AWS identity (ACCOUNT CHECK)
+      # 2️⃣ DEBUG: Confirm AWS account (MOST IMPORTANT)
       - name: Debug - AWS identity
         run: |
           echo "=== AWS CALLER IDENTITY ==="
           aws sts get-caller-identity
 
-      # 3️⃣ DEBUG: Confirm region GitHub Actions is using
-      - name: Debug - AWS region
+      # 3️⃣ DEBUG: Confirm region via environment variables
+      - name: Debug - AWS region (env vars)
         run: |
-          echo "=== AWS REGION ==="
-          aws configure get region
+          echo "=== AWS REGION FROM ENV ==="
+          echo "AWS_REGION=$AWS_REGION"
+          echo "AWS_DEFAULT_REGION=$AWS_DEFAULT_REGION"
 
-      # 4️⃣ DEBUG: List Lambda functions in this account + region
+      # 4️⃣ DEBUG: Confirm full AWS CLI configuration
+      - name: Debug - AWS configuration
+        run: |
+          echo "=== AWS CONFIGURATION ==="
+          aws configure list
+
+      # 5️⃣ DEBUG: List Lambda functions in this account + region
       - name: Debug - List Lambda functions
         run: |
           echo "=== LAMBDA FUNCTIONS IN REGION ==="
-          aws lambda list-functions --max-items 10
+          aws lambda list-functions --max-items 20
 
-      # 5️⃣ Invoke Lambda health check
+      # 6️⃣ Invoke Lambda health check
       - name: Invoke Lambda health check
         run: |
           aws lambda invoke \
@@ -76,13 +83,13 @@ jobs:
             --payload '{}' \
             response.json
 
-      # 6️⃣ Print Lambda response
+      # 7️⃣ Print Lambda response
       - name: Print Lambda response
         run: |
           echo "=== LAMBDA RESPONSE ==="
           cat response.json
 
-      # 7️⃣ Fail pipeline if Lambda reports FAIL
+      # 8️⃣ Fail pipeline if Lambda reports FAIL
       - name: Fail build if Lambda returned FAIL
         run: |
           STATUS=$(cat response.json | jq -r '.status')
